@@ -22,7 +22,7 @@ class DataSource:
         data = self._get_data_from_request(uri)
         return str(data)
 
-    def get_data_as_dataframe(self, uri):
+    def get_data_as_string(self, uri):
         data = self._get_data_from_request(uri)
         return pd.read_csv(StringIO(str(data)))
 
