@@ -3,27 +3,78 @@ import pandas as pd
 from io import StringIO
 import logging
 from dataclasses import dataclass
+from datetime import date, datetime
 
 
 @dataclass
-class DataSource:
+class DataSourceOne:
     """
     DataSource Object: for Database Consumer to Use
     """
 
-    def _get_data_from_request(self, uri):
-        logging.info(f"Sending GET request to {uri}")
-        r = requests.get(uri)
-        logging.info(f"result: {r.status_code}")
-        return r.content
+    def _basic_validation(self, df: pd.DataFrame):
+        print(df.columns.values.tolist())
 
-    def get_data_as_string(self, uri: str) -> str:
-        data = self._get_data_from_request(uri)
-        return str(data)
+        if all(
+            item
+            in [
+                "_id",
+                "Company",
+                "Unit Name",
+                "EFA Date",
+                "Delivery Start",
+                "Delivery End",
+                "EFA",
+                "Service",
+                "Cleared Volume",
+                "Clearing Price",
+                "Technology Type",
+                "Location",
+                "Cancelled",
+            ]
+            for item in df.columns.values.tolist()
+        ):
+            print("basic validation passed")
+        else:
+            print("error")
 
-    def get_data_as_csv(self, uri: str) -> pd.DataFrame:
-        data = str(self._get_data_from_request(uri))
-        return pd.read_csv(StringIO(str(data)))
+    def _rename_dataframe_columns(self, df: pd.DataFrame) -> pd.DataFrame:
+        rename_dict = {
+            "_id": "id",
+            "Company Name": "company_name",
+            "Unit Name": "unit_name",
+            "EFA Date": "efa_date",
+            "Delivery Start": "delivery_start",
+            "Delivery End": "delivery_end",
+            "EFA": "efa",
+            "Service": "service",
+            "Cleared Volume": "cleared_volume",
+            "Clearing Price": "clearing_price",
+            "Technology Type": "technology_type",
+            "Location": "location",
+            "Cancelled": "cancelled",
+        }
+        df.rename(columns=rename_dict)
+        return df
 
-    def show_data(self):
-        print(self)
+    def get_data_as_df(self, uri: str) -> pd.DataFrame:
+        df = pd.read_csv(
+            uri,
+            dtype={
+                "_id": int,
+                "Company Name": str,
+                "Unit Name": str,
+                "EFA Date": date,
+                "Delivery Start": datetime,
+                "Delivery End": datetime,
+                "EFA": int,
+                "Service": str,
+                "Cleared Volume": int,
+                "Clearing Price": int,
+                "Technology Type": str,
+                "Location": str,
+                "Cancelled": bool,
+            },
+        )
+        self._basic_validation(df)
+        return df
