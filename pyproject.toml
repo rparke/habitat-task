@@ -8,6 +8,9 @@ packages = [{include = "api_to_database"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+pandas = "^1.5.1"
+requests = "^2.28.1"
+black = "^22.10.0"
 
 
 [build-system]
