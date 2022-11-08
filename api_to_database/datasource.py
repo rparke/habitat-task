@@ -1,6 +1,5 @@
 import pandas as pd
 import logging
-from dataclasses import dataclass, field
 
 
 class DataSourceAuctionResults:
