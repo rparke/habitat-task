@@ -39,7 +39,7 @@ class DataSourceAuctionResults:
     def _filter_out_companies(self):
         self._df = self._df[self._df["company"].isin(self.filter_companies)]
 
-    def get_data_as_df(self) -> pd.DataFrame:
+    def get_data_as_df(self):
         self._df = pd.read_csv(
             self.uri,
         )
