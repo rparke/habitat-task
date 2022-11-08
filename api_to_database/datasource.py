@@ -13,8 +13,8 @@ class DataSourceAuctionResults:
 
     # Basic Placeholder function for validation, in practice MORE validation is neeeded.
     def _basic_validation(self):
-
-        logging.info("Validation will always pass")
+        logging.info("Validating...")
+        logging.info("Validation passed because validation will always pass")
 
     def _rename_columns(self):
         self._df = self._df.rename(

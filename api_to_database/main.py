@@ -8,9 +8,11 @@ URI = "https://data.nationalgrideso.com/backend/datastore/dump/ddc4afde-d2bd-424
 database_url = "sqlite://"
 
 
-def add_auction_results_to_database(engine, listToWrite):
+def add_auction_results_to_database(engine, df):
     with Session(engine) as session:
-        session.add_all([AuctionResults(**item) for item in listToWrite])
+        session.add_all(
+            [AuctionResults(**item) for item in df.to_dict(orient="records")]
+        )
         session.commit()
 
 
@@ -28,16 +30,17 @@ def read_auction_results_from_database(
 
 def main():
     logging.basicConfig(level=logging.INFO)
-    ds = DataSourceAuctionResults(URI)
-    df = ds.get_data_as_df()
+    logging.info(f"GET DataFrame from {URI}")
+    df = DataSourceAuctionResults(URI).get_data_as_df()
 
-    engine = create_engine(database_url, echo=True)
+    logging.info(f"Creating sqlalchemy engine for database at: {database_url}")
+    engine = create_engine(database_url)
+    logging.info(f"Creating Table: {AuctionResults.__tablename__}")
     Base.metadata.create_all(engine)
-    listToWrite = df.to_dict(orient="records")
 
-    add_auction_results_to_database(engine, listToWrite)
+    add_auction_results_to_database(engine, df)
 
-    read_auction_results_from_database(engine)
+    # read_auction_results_from_database(engine)
 
 
 if __name__ == "__main__":
