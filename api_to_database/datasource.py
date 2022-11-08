@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class DataSourceOne:
+class DataSourceAuctionResults:
     """
     DataSource Object: for Database Consumer to Use
     """

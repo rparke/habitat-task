@@ -1,6 +1,8 @@
+from dataclasses import dataclass
 from sqlalchemy.orm import declarative_base, Session
 from sqlalchemy import Integer, Column, String, Boolean
 from sqlalchemy import create_engine, select
+from sqlalchemy.engine.base import Engine
 from sqlalchemy.types import DateTime, Date
 
 
