@@ -1,6 +1,3 @@
-import requests
-import pandas as pd
-from io import StringIO
 import logging
 from datasource import DataSourceOne
 
@@ -11,6 +8,7 @@ def main():
     logging.basicConfig(level=logging.INFO)
     ds = DataSourceOne(URI)
     df = ds.get_data_as_df()
+    print(df)
 
 
 if __name__ == "__main__":
