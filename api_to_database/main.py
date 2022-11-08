@@ -11,7 +11,6 @@ def main():
     logging.basicConfig(level=logging.INFO)
     ds = DataSourceOne()
     df = ds.get_data_as_df(URI)
-    print(df)
 
 
 if __name__ == "__main__":
