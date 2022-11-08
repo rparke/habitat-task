@@ -9,8 +9,8 @@ URI = "https://data.nationalgrideso.com/backend/datastore/dump/ddc4afde-d2bd-424
 
 def main():
     logging.basicConfig(level=logging.INFO)
-    ds = DataSourceOne()
-    df = ds.get_data_as_df(URI)
+    ds = DataSourceOne(URI)
+    df = ds.get_data_as_df()
 
 
 if __name__ == "__main__":

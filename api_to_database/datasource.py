@@ -12,8 +12,10 @@ class DataSourceOne:
     DataSource Object: for Database Consumer to Use
     """
 
+    uri: str
+
     # Basic Placeholder function for validation, in practice MORE validation is neeeded.
-    def _basic_validation(self, df: pd.DataFrame, uri: str):
+    def _basic_validation(self):
 
         if all(
             item
@@ -32,15 +34,15 @@ class DataSourceOne:
                 "Location",
                 "Cancelled",
             ]
-            for item in df.columns.values.tolist()
+            for item in self._df.columns.values.tolist()
         ):
-            logging.info(f"DataFrame read from uri: {uri} has valid column names")
+            logging.info(f"DataFrame read from uri: {self.uri} has valid column names")
         else:
             logging.error(f"Error")
 
-    def get_data_as_df(self, uri: str) -> pd.DataFrame:
-        df = pd.read_csv(
-            uri,
+    def get_data_as_df(self) -> pd.DataFrame:
+        self._df = pd.read_csv(
+            self.uri,
         )
-        self._basic_validation(df, uri)
-        return df
+        self._basic_validation()
+        return self._df
