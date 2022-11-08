@@ -1,19 +1,27 @@
 import logging
 from datasource import DataSourceAuctionResults
 from database_writer import AuctionResults, Base
-from sqlalchemy import create_engine, select
+from sqlalchemy import create_engine, select, exc
 from sqlalchemy.orm import Session
 
 URI = "https://data.nationalgrideso.com/backend/datastore/dump/ddc4afde-d2bd-424d-891c-56ad49c13d1a"
-database_url = "sqlite://"
+database_url = (
+    "sqlite://"  # we are simply using an in memory sqlite db for demonstration here
+)
 
 
 def add_auction_results_to_database(engine, df):
+
     with Session(engine) as session:
-        session.add_all(
-            [AuctionResults(**item) for item in df.to_dict(orient="records")]
-        )
-        session.commit()
+        try:
+            session.add_all(
+                [AuctionResults(**item) for item in df.to_dict(orient="records")]
+            )
+            session.commit()
+        except exc.SQLAlchemyError as e:
+            logging.error(
+                f"Attempting to insert new data into query resulted in exception {e}"
+            )
 
 
 def read_auction_results_from_database(
@@ -37,7 +45,11 @@ def main():
     engine = create_engine(database_url)
     logging.info(f"Creating Table: {AuctionResults.__tablename__}")
     Base.metadata.create_all(engine)
-
+    logging.info("First Attempt")
+    add_auction_results_to_database(engine, df)
+    logging.info("Second Attempt")
+    add_auction_results_to_database(engine, df)
+    logging.info("Third Attempt")
     add_auction_results_to_database(engine, df)
 
     # read_auction_results_from_database(engine)
