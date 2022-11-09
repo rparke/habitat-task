@@ -27,7 +27,7 @@ class DataFrameClearner:
         Going forward this should probably be rewritten as more generic
         by passing a dict of key value pairs containing the key to filter, and the values to filter out
         """
-        self._df = self._df[self._df["company"].isin(filter_companies)]
+        self._df = self._df[self._df["Company"].isin(filter_companies)]
 
     def get_data_as_df(
         self,
@@ -37,6 +37,6 @@ class DataFrameClearner:
     ):
         self._df = df
         self._basic_validation()
-        self._rename_columns(rename_mapping)
         self._filter_out_companies(filter_companies)
+        self._rename_columns(rename_mapping)
         return self._df
