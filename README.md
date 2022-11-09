@@ -32,3 +32,5 @@ Main Next Steps:
     4) Rewrite the test_database_service fixtures so that they do not depend on a real database (even though it is in memory) and so that they do not depend on an API (bad because the API could cease to exist, its format and contents could change, etc), and as currently written it requires the DataFrameCleaner class to work correctly too (the unit test should only test a single unit)
     
     5) Insert UTC timestamps into the db table, so that data scientists etc. are aware of WHEN the data was first made available.
+
+    6) Add logic into the database so that is only needs to create a table if the table does not already exist.
