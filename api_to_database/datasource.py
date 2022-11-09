@@ -1,6 +1,5 @@
 import pandas as pd
 import logging
-import datetime
 
 
 class DataFrameClearner:
@@ -29,6 +28,11 @@ class DataFrameClearner:
         """
         self._df = self._df[self._df["Company"].isin(filter_companies)]
 
+    def _clean_up_data(self):
+        logging.info(
+            "clean up dateframe data: Not Implemented Yet! Will ensure that series adhere to the correct types"
+        )
+
     def get_data_as_df(
         self,
         df,
@@ -39,4 +43,5 @@ class DataFrameClearner:
         self._basic_validation()
         self._filter_out_companies(filter_companies)
         self._rename_columns(rename_mapping)
+        self._clean_up_data()
         return self._df
